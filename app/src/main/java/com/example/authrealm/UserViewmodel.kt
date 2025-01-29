@@ -20,6 +20,7 @@ class UserViewmodel: ViewModel() {
     val loginStatus = _loginStatus.asStateFlow()
 
     fun signup(userName: String, password: String){
+        _signupStatus.value = NetworkResponse.Loading
         viewModelScope.launch {
 
             realm.write {
@@ -43,7 +44,7 @@ class UserViewmodel: ViewModel() {
 
     fun login(userName: String, password: String){
         viewModelScope.launch {
-            val user = realm.query<UserModel>("userName ==$0 AND password ==$1").first().find()
+            val user = realm.query<UserModel>("userName ==$0 AND password ==$1", userName, password).first().find()
             if(user != null){
                 _loginStatus.value = NetworkResponse.Success("login successful")
             } else{
