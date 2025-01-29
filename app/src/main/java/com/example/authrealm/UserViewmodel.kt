@@ -13,10 +13,10 @@ class UserViewmodel: ViewModel() {
 
     val realm = MyApp.realm
 
-    private val _signupStatus = MutableStateFlow<String?>(null)
+    private val _signupStatus = MutableStateFlow<NetworkResponse>(NetworkResponse.Loading)
     val signupStatus = _signupStatus.asStateFlow()
 
-    private val _loginStatus = MutableStateFlow<String?>(null)
+    private val _loginStatus = MutableStateFlow<NetworkResponse>(NetworkResponse.Loading)
     val loginStatus = _loginStatus.asStateFlow()
 
     fun signup(userName: String, password: String){
@@ -25,7 +25,7 @@ class UserViewmodel: ViewModel() {
             realm.write {
                 val existingUser = query<UserModel>("userName == $0", userName).first().find()
                 if (existingUser != null){
-                    _signupStatus.value= "user exists"
+                    _signupStatus.value= NetworkResponse.Error("USER ALREADY EXISTS")
                 } else{
                     val newUser = UserModel().apply {
                         this.userName = userName
@@ -33,7 +33,7 @@ class UserViewmodel: ViewModel() {
                     }
 
                     copyToRealm(newUser, updatePolicy = UpdatePolicy.ALL)
-                    _signupStatus.value = "signup successful"
+                    _signupStatus.value = NetworkResponse.Success("signup successful")
                 }
 
             }
@@ -45,9 +45,9 @@ class UserViewmodel: ViewModel() {
         viewModelScope.launch {
             val user = realm.query<UserModel>("userName ==$0 AND password ==$1").first().find()
             if(user != null){
-                _loginStatus.value = "login successful"
+                _loginStatus.value = NetworkResponse.Success("login successful")
             } else{
-                _loginStatus.value = "invalid username or password"
+                _loginStatus.value =  NetworkResponse.Error("invalid username or password")
             }
         }
     }
