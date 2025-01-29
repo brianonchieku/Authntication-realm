@@ -106,7 +106,16 @@ fun SignupPage(viewmodel: UserViewmodel){
                     Spacer(modifier = Modifier.size(20.dp))
 
                     Button(onClick ={
-                        viewmodel.signup(username, password)
+                        if (password.isNotEmpty() && username.isNotEmpty() && confirmpassword.isNotEmpty()) {
+                            if (password == confirmpassword) {
+                                viewmodel.signup(username, password)
+                            }else {
+                                Toast.makeText(context, "Passwords do not match", Toast.LENGTH_LONG).show()
+                            }
+                        }else {
+                            Toast.makeText(context, "Please fill all the fields", Toast.LENGTH_SHORT).show()
+                        }
+
                     }, modifier = Modifier.width(250.dp), ) {
                         when(signupStatus){
 
