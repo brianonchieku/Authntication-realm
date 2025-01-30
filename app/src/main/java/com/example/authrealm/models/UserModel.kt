@@ -6,7 +6,7 @@ import org.mongodb.kbson.ObjectId
 
 class UserModel: RealmObject {
 
-    @PrimaryKey val id: ObjectId = ObjectId()
+    @PrimaryKey var id: ObjectId = ObjectId()
     var userName: String = ""
     var password: String = ""
 }

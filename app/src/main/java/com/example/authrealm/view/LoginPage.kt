@@ -49,7 +49,7 @@ import com.example.authrealm.R
 import com.example.authrealm.UserViewmodel
 
 @Composable
-fun LoginPage(viewmodel: UserViewmodel){
+fun LoginPage(viewmodel: UserViewmodel, navHostController: NavHostController){
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Image(painter = painterResource(id = R.drawable.lavender3), contentDescription =null,
             modifier = Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
@@ -131,7 +131,9 @@ fun LoginPage(viewmodel: UserViewmodel){
                         verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(text = "forgot password?", modifier = Modifier.clickable {})
-                        Text(text = "Register", fontWeight = FontWeight.Bold, modifier = Modifier.clickable {})
+                        Text(text = "Register", fontWeight = FontWeight.Bold, modifier = Modifier.clickable {
+                            navHostController.navigate("signup page")
+                        })
 
                     }
 

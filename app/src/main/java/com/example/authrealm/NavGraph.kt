@@ -13,7 +13,7 @@ fun Navigation(viewmodel: UserViewmodel){
     NavHost(navController = navController, startDestination = "login page"){
 
         composable("login page"){
-            LoginPage(viewmodel = viewmodel )
+            LoginPage(viewmodel = viewmodel, navController )
         }
 
         composable("signup page"){
