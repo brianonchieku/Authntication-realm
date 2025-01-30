@@ -41,12 +41,13 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.authrealm.NetworkResponse
 import com.example.authrealm.R
 import com.example.authrealm.UserViewmodel
 
 @Composable
-fun SignupPage(viewmodel: UserViewmodel){
+fun SignupPage(viewmodel: UserViewmodel, navController: NavHostController){
 
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Image(painter = painterResource(id = R.drawable.lavender3), contentDescription =null,
@@ -66,6 +67,7 @@ fun SignupPage(viewmodel: UserViewmodel){
                     }
                     is NetworkResponse.Success -> {
                         Toast.makeText(context, (signupStatus as NetworkResponse.Success).message, Toast.LENGTH_SHORT).show()
+                        navController.navigate("login page")
                     }
                     else -> {} // No toast for loading state
                 }
@@ -129,7 +131,9 @@ fun SignupPage(viewmodel: UserViewmodel){
                     }
                     Spacer(modifier = Modifier.size(20.dp))
                     Text(text = "Already have an account?", fontWeight = FontWeight.Bold,
-                        modifier = Modifier.clickable {})
+                        modifier = Modifier.clickable {
+                            navController.navigate("login page")
+                        })
 
 
 
